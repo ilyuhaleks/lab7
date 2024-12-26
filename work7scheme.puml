@@ -1,0 +1,77 @@
+@startuml
+class work7.RemoveRequestCommand {
+- QueueReceiver receiver
+- HttpRequest request
++ <<Create>> RemoveRequestCommand(QueueReceiver,HttpRequest)
++ void execute()
+}
+
+
+class work7.QueueReceiver {
+- PriorityQueue<HttpRequest> queue
++ <<Create>> QueueReceiver()
++ void addRequest(HttpRequest)
++ void removeRequest(HttpRequest)
++ void processRequest()
++ void updatePriority(HttpRequest,int)
+}
+
+
+class work7.ProcessRequestCommand {
+- QueueReceiver receiver
++ <<Create>> ProcessRequestCommand(QueueReceiver)
++ void execute()
+}
+
+
+interface work7.Command {
+~ void execute()
+}
+
+class work7.Invoker {
+- List<Command> history
++ void executeCommand(Command)
+}
+
+
+class work7.HttpRequest {
+- String url
+- String method
+- int priority
++ <<Create>> HttpRequest(String,String,int)
++ String getUrl()
++ String getMethod()
++ int getPriority()
++ void setPriority(int)
++ String toString()
+}
+
+
+class work7.AddRequestCommand {
+- QueueReceiver receiver
+- HttpRequest request
++ <<Create>> AddRequestCommand(QueueReceiver,HttpRequest)
++ void execute()
+}
+
+
+class work7.UpdatePriorityCommand {
+- QueueReceiver receiver
+- HttpRequest request
+- int newPriority
++ <<Create>> UpdatePriorityCommand(QueueReceiver,HttpRequest,int)
++ void execute()
+}
+
+
+class work7.Main {
++ {static} void main(String[])
+}
+
+
+
+work7.Command <|.. work7.RemoveRequestCommand
+work7.Command <|.. work7.ProcessRequestCommand
+work7.Command <|.. work7.AddRequestCommand
+work7.Command <|.. work7.UpdatePriorityCommand
+@enduml
